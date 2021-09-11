@@ -4,7 +4,7 @@
 
 ## Completed code reference
 
-First example button:
+### First example button:
 ```js
 i = 1
 
@@ -18,7 +18,7 @@ feature.on('click',e=>{
 ```
 
 
-Get player info:
+### Get player info:
 ```js
 feature.on('click',e=>{
   
@@ -32,7 +32,7 @@ feature.on('click',e=>{
 ```
 
 
-Update text sign:
+### Update text sign:
 ```js
 let text_sign = parcel.getFeatureById('welcome')
 
@@ -45,7 +45,7 @@ parcel.on('playerenter',e=>{
 ```
 
 
-GraphQL query:
+### GraphQL query:
 ```graphql
 {
   delegators(where:{id:"0x994d6ea5a9ccb836d1354947d4697ed3157e48fd"}){
@@ -56,7 +56,7 @@ GraphQL query:
 ```
 
 
-Pull data in Cryptovoxels from The Graph:
+### Pull data in Cryptovoxels from The Graph:
 ```js
 let text_sign = parcel.getFeatureById('welcome')
 let delegation = parcel.getFeatureById('delegation')

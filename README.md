@@ -55,6 +55,33 @@ parcel.on('playerenter',e=>{
 }
 ```
 
+### GraphQL from Cryptovoxels template:
+```graphql
+parcel.on('playerenter',e=>{
+  
+  fetch('[endpoint url here]', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({
+    query: `
+        query [query here]
+      `,
+  }),
+})
+  .then((res) => res.json())
+  .then((result) => {
+    
+    // do stuff here
+    
+    console.log(result)  
+  
+  }) 
+  
+})
+```
+
 
 ### Pull data in Cryptovoxels from The Graph:
 ```js

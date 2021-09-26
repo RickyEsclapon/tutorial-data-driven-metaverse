@@ -45,28 +45,26 @@ parcel.on('playerenter',e=>{
 ```
 
 
-### GraphQL query:
-```graphql
-{
-  delegators(where:{id:"0x994d6ea5a9ccb836d1354947d4697ed3157e48fd"}){
-    id
-    currentDelegation
-  }
-}
-```
+## Part 2
 
-### GraphQL from Cryptovoxels template:
-```graphql
-parcel.on('playerenter',e=>{
-  
-  fetch('[endpoint url here]', {
+### POAP example
+
+Show the user their most recent POAPs.
+
+#### GraphQL data from The Graph
+
+Subgraph: https://thegraph.com/legacy-explorer/subgraph/poap-xyz/poap-xdai
+
+GraphQL Request Template:
+```js
+  fetch('[ENDPOINT LINK HERE]', {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json',
   },
   body: JSON.stringify({
     query: `
-        query [query here]
+        query [YOUR QUERY HERE]
       `,
   }),
 })
@@ -74,27 +72,13 @@ parcel.on('playerenter',e=>{
   .then((result) => {
     
     // do stuff here
-    
-    console.log(result)  
   
   }) 
-  
-})
 ```
 
-
-### Pull data in Cryptovoxels from The Graph:
-```js
-let text_sign = parcel.getFeatureById('welcome')
-let delegation = parcel.getFeatureById('delegation')
-
-parcel.on('playerenter',e=>{
-  
-  console.log(e.player.name)
-  
-  text_sign.set({text: 'welcome ' + e.player.name + ' !'})
-  
-  fetch('https://api.thegraph.com/subgraphs/name/graphprotocol/graph-network-analytics', {
+GraphQL Request Example:
+```{js}
+  fetch('https://api.thegraph.com/subgraphs/name/poap-xyz/poap-xdai', {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json',
@@ -102,10 +86,12 @@ parcel.on('playerenter',e=>{
   body: JSON.stringify({
     query: `
         query {
-  delegators(where:{id:"0x994d6ea5a9ccb836d1354947d4697ed3157e48fd"}){
+  accounts(where: {id: "0x8115afd8dffce5579381ad27524b6feeae917bef"}) {
     id
-    currentDelegation
-		totalUnrealizedRewards
+    tokens {
+      id
+    }
+    tokensOwned
   }
 }
       `,
@@ -114,15 +100,43 @@ parcel.on('playerenter',e=>{
   .then((res) => res.json())
   .then((result) => {
     
+    // do stuff here
+    console.log(result)
+  
+  }) 
+```
+
+Refresh result for user visiting the parcel:
+```js
+feature.on('click',e=>{
+  console.log(e.player)
+  
+  element.set({text: 'welcome ' + e.player.wallet }) 
+  
+    fetch('https://api.thegraph.com/subgraphs/name/poap-xyz/poap-xdai', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({
+    query: `
+        query {
+  accounts(where: {id: "`+e.player.wallet +`"}) {
+    id
+    tokens {
+      id
+    }
+    tokensOwned
+  }
+}
+      `,
+  }),
+})
+  .then((res) => res.json())
+  .then((result) => {
     
     // do stuff here
-    
-    console.log(result)  
-    
-    console.log(result.data.delegators[0].currentDelegation/10^18)    
-    
-        
-    delegation.set({text: result.data.delegators[0].currentDelegation/10^18})    
+    console.log(result)
   
   }) 
   
@@ -131,6 +145,20 @@ parcel.on('playerenter',e=>{
 
 
 
-... finish adding in code!
 
+#### API data example from POAP
+
+
+Example API request:
+```js
+  fetch('https://jsonplaceholder.typicode.com/posts').then(function (response) {
+	// The API call was successful!
+	console.log('success!', response);
+}).catch(function (err) {
+	// There was an error
+	console.warn('Something went wrong.', err);
+});
+```
+
+... add https://api.poap.xyz/token/321436
 

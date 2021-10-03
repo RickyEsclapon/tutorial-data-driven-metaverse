@@ -45,7 +45,7 @@ parcel.on('playerenter',e=>{
 ```
 
 
-## Part 2
+## Part 2: https://youtu.be/veJj-Q3W84I
 
 ### POAP example
 
@@ -112,8 +112,6 @@ Refresh result for user visiting the parcel:
 feature.on('click',e=>{
   console.log(e.player)
   
-  element.set({text: 'welcome ' + e.player.wallet }) 
-  
     fetch('https://api.thegraph.com/subgraphs/name/poap-xyz/poap-xdai', {
   method: 'POST',
   headers: {
@@ -146,7 +144,6 @@ feature.on('click',e=>{
 
 
 
-
 #### API data example from POAP
 
 
@@ -160,5 +157,56 @@ Example API request:
 })
 ```
 
-... add https://api.poap.xyz/token/321436
+
+#### Final Script in Video
+
+```js
+let element = parcel.getFeatureById('poap_image')
+
+
+parcel.on('playerenter',e=>{
+    fetch('https://api.thegraph.com/subgraphs/name/poap-xyz/poap-xdai', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({
+    query: `
+        query {
+  accounts(where:{id:"`+e.player.wallet+`"}) {
+    id
+    tokens {
+      id
+    }
+    tokensOwned
+  }
+}
+      `,
+  }),
+})
+  .then((res) => res.json())
+  .then((result) => {
+    
+    // do stuff here
+    console.log(result)
+  
+    console.log(result.data.accounts[0].tokens[0].id)
+    
+        fetch('https://api.poap.xyz/token/'+result.data.accounts[0].tokens[0].id).then(function (response) {
+	return response.json();
+}).then(function (data) {
+	// This is the JSON from our response
+	console.log(data.event.image_url);
+      
+      element.set({url: data.event.image_url})    
+              
+})
+
+          
+        
+  }) 
+
+})
+```
+
 

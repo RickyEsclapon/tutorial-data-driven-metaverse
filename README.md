@@ -72,6 +72,7 @@ GraphQL Request Template:
   .then((result) => {
     
     // do stuff here
+    console.log(result)
   
   }) 
 ```
